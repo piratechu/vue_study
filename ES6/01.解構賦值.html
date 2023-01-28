@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            //陣列解構
+            let store = ["7-11", "全家", "萊爾富", "OK"];
+            let [a, b, c, d] = store;
+            console.log(a, b, c, d);
+
+            //物件解構
+            const storeDetail = {
+                name: "全家",
+                competitor: function () {
+                    console.log("7-11,全聯,家樂福");
+                },
+            };
+            // 物件解構，名字要跟物件定義一致
+            // let { a, paypaycompetitor } = pay;
+            let { name, competitor } = storeDetail;
+            console.log(name);
+            competitor();
+        </script>
+    </body>
+</html>
