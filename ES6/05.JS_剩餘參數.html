@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>剩餘參數 rest parameter</title>
+    </head>
+    <body>
+        <!-- 取得剩下的參數，並存為一個陣列。
+剩餘參數在傳入時，必定是位於最後一位，並且只能有一個剩餘參數。
+剩餘參數的值在沒有傳入實際值時，會變為一個空陣列，而不是undefined。
+又叫做「剩餘運算子」「其餘參數」「其餘運算子」
+ESLint（airbnb）規則：不要使用 arguments 語法，使用 rest 語法 ... 替代     -->
+        <script>
+            //剩餘運算子
+            function f(a, b, ...all) {
+                console.log("@@", a);
+                console.log("@@", b);
+                console.log("@@", all); //陣列
+            }
+            f(2, 3, 4, 5, 6); //[4,5,6]
+            f(1, 2); //[]
+        </script>
+    </body>
+</html>

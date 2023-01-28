@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Spread operator 展開運算子</title>
+    </head>
+    <body>
+        <script>
+            // 基本用法：陣列／字串拆解
+            // 用在陣列會把每個值拆出來，並用逗號隔開，如果用在字串的話，也會把每個字符拆開。
+            //陣列
+            let week = [1, 2, 3, 4, 5, 6, 7];
+            console.log(...week); // 1,2,3,4,5,6,7
+
+            //字串
+            let str = "IAmSoCute";
+            console.log(...str); // "I","A","m","S","o","C","u","t","e"
+
+            //可以用來複製陣列
+            let today = ["沙拉", "水煮雞胸"];
+            let tomorrow = [...today];
+            console.log(tomorrow); // ['沙拉','水煮雞胸']
+
+            //可以用來組合兩個陣列
+            //過去我們如果要把兩個陣列組合成一個陣列時，會使用concat語法
+            let dinner = ["雞胸肉", "沙拉"];
+            let lunch = ["大陸妹", "水煮蛋", "和風醬"];
+            let todayFood = dinner.concat(lunch);
+            console.log("concat:", todayFood); // ["雞胸肉", "沙拉", "大陸妹", "水煮蛋", "和風醬"];
+
+            let SpreadtodayFood = [...dinner, ...lunch];
+            console.log("Spread:", SpreadtodayFood);
+
+            //把陣列傳入函式做運算
+            function count(breakfast, lunch, dinner) {
+                return breakfast + lunch + dinner;
+            }
+            var price = [10, 50, 20];
+
+            console.log(count(...price)); // 80
+        </script>
+    </body>
+</html>

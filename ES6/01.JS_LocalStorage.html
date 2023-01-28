@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>localStorage</title>
+    </head>
+    <!--
+HTML5 問世後，有一個 web storage的使用
+可以將網頁中的資料儲存在使用者的瀏覽器當中 — 
+也就是説可以在（client）客戶端儲存資料。使用
+上的好處在於大部分瀏覽器都有支援、可以儲存資
+料的容量大多有 5MB 以上、且資料儲存和提取相對簡單方便。    
+* 有兩種 web storage
+    1. localStorage：可以跨瀏覽器分頁做使用、使用者關掉分頁或瀏覽器再打開資料仍不會消失，且資料無期效限制，資料將永久被保留。
+    2. sessionStorage：生命週期較短，當使用者關掉瀏覽器或分頁時，sessionStorage 中的資料將被清空。
+* 資料儲存的格式
+    1. 資料是以類似 JSON 的 Key-value pair 格式儲存
+    2.key 和 value 皆需要為字串
+* localstorage 缺點
+    1. local storage 提供約 5MB 的容量空間，若建置的網路應用程式需要暫存大量資料時，容量空間未必充足。
+    2. 資料儲存的格式 key 和 value 都只能接受「字串 」，若儲存的資料非字串 — 陣列或物件 — 在儲存時會被轉成字串格式，而衍伸問題：
+-->
+    <body>
+        <button onclick="saveData()">點我保存數據</button>
+        <button onclick="readData()">點我讀取數據</button>
+        <button onclick="deleteData()">點我刪除數據</button>
+        <button onclick="clearData()">點我清空所有數據</button>
+        <script>
+            let p = { name: "張三", age: 18 };
+
+            function saveData() {
+                localStorage.setItem("msg1", "hell!!");
+                //會已文字方式儲存
+                localStorage.setItem("msg2", 666);
+                localStorage.setItem("person", JSON.stringify(p));
+            }
+            function readData() {
+                //如果讀取的資料不存在回覆是 null
+                console.log(localStorage.getItem("msg1"));
+                console.log(localStorage.getItem("msg2"));
+                const result = localStorage.getItem("person");
+                console.log(JSON.parse(result));
+            }
+            function deleteData() {
+                localStorage.removeItem("msg2");
+            }
+            function clearData() {
+                localStorage.clearData();
+            }
+        </script>
+    </body>
+</html>
