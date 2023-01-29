@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            //1. 創建 symbol
+            let s1 = Symbol();
+            console.log(s1, typeof s); //symbol(), symbol
+            let s2 = Symbol("Taiwan");
+            let s3 = Symbol("Taiwan");
+            console.log(s2 === s3); //false
+            //2. symbol.for
+            let s4 = Symbol.for("Taiwan");
+            let s5 = Symbol.for("Taiwan");
+            console.log(s4 === s5); //ture
+
+            //3.不能與其他不能與其他數據運算
+            let r1 = s1 + s2;
+            let r2 = s1 + "Love";
+            console.log(r2); //Cannot convert a Symbol value to a number
+
+            //USONB you are so niubility 你很牛掰
+            //七種數據類型
+            // u undefined
+            // s string symbol
+            // o object
+            // n null number
+            // b boolean
+        </script>
+    </body>
+</html>

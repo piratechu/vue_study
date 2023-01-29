@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            const planet = [
+                "水星",
+                "金星",
+                "地球",
+                "火星",
+                "木星",
+                "土星",
+                "天王星",
+                "海王星",
+                "冥王星",
+            ];
+            // console.log(planet);
+            //for...in，回傳的是 index 若是物件回傳的就是 property name
+            //for...of，回傳的是value
+            //範例請解開註解
+            // for (let p of planet) {
+            //     console.log(p);
+            // }
+
+            //運行原理，陣列的方法裡面有一個 Symbol 的 iterator
+            //所以進行 iterator 的呼叫
+            let iterator = planet[Symbol.iterator]();
+            //然後再調用 next 方法去遍歷，回傳兩個資料，一個是 vaule，另外一個是 done
+            //當 done = ture 表示遍歷結束
+            console.log(iterator.next()); //水星
+            console.log(iterator.next()); //金星
+            console.log(iterator.next()); //地球
+            console.log(iterator.next()); //火星
+            console.log(iterator.next()); //木星
+            console.log(iterator.next()); //土星
+            console.log(iterator.next()); //天王星
+            console.log(iterator.next()); //海王星
+            console.log(iterator.next()); //冥王星
+            console.log(iterator.next()); //undefined, done: true
+        </script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            //for...of 遍歷
+            //聲明 map
+            let m = new Map();
+
+            //增添元素
+            m.set("name", "台雞店");
+            m.set("change", function () {
+                console.log("我可以在 map 改變資料");
+            });
+            m.set("city", ["新竹", "高雄", "亞歷桑納"]);
+            //for---of
+            for (let v of m) {
+                console.log(v);
+            }
+            console.log(m);
+            console.log(m.size);
+            m.delete("name");
+            console.log(m);
+            m.clear();
+            console.log(m);
+        </script>
+    </body>
+</html>

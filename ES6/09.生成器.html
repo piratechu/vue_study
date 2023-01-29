@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            //生成器屬於特殊函數
+            //展示一
+            function* gen() {
+                console.log("hello generator");
+            }
+
+            let iterator = gen();
+
+            //prototype 裡面有 next方法
+            console.log(iterator);
+            //可以調用 next方法
+            iterator.next();
+
+            //展示二
+            //yield是ES6的新關鍵字，後面表達式的值返回給生成器的調用者
+            //yield 會返回兩個屬性 value & done
+            function* genPlanet() {
+                const planet = [
+                    "水星",
+                    "金星",
+                    "地球",
+                    "火星",
+                    "木星",
+                    "土星",
+                    "天王星",
+                    "海王星",
+                    "冥王星",
+                ];
+                for (var i = 0; i < planet.length; i++) {
+                    yield planet[i];
+                }
+            }
+            //yeild 的關鍵字，方便的回覆了 value & done
+            var NinePlanet = genPlanet();
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+            console.log(NinePlanet.next());
+
+            //for...of
+            for (let p of genPlanet()) {
+                console.log(p);
+            }
+
+            //參數傳遞
+            function* genParams(arg) {
+                console.log(arg);
+                yield "參數傳遞";
+            }
+
+            let p = genParams("Hello");
+            console.log(p.next());
+            console.log(p.next());
+        </script>
+    </body>
+</html>

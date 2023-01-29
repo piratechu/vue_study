@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            //聲明物件(object)
+            const planets = {
+                cate: "九大行星",
+                planet: [
+                    "水星",
+                    "金星",
+                    "地球",
+                    "火星",
+                    "木星",
+                    "土星",
+                    "天王星",
+                    "海王星",
+                    "冥王星",
+                ],
+                //自行建立 iterator
+                [Symbol.iterator]() {
+                    //索引變量
+                    let index = 0;
+                    //保存 this
+                    let _this = this;
+                    return {
+                        next: function () {
+                            if (index < _this.planet.length) {
+                                const result = {
+                                    value: _this.planet[index],
+                                    done: false,
+                                };
+                                index++;
+                                return result;
+                            } else {
+                                return { value: undefined, done: true };
+                            }
+                        },
+                    };
+                },
+            };
+            //for...of 不能直接遍歷，因為沒有Iterator屬性
+            //自己設計的 interator 屬性加入後，就可以遍歷
+            for (let p of planets) {
+                console.log(p); //TypeError: planets is not iterable
+            }
+
+            //目標使用 for...of 遍歷，返回 planet 內容
+
+            //用 forEach 可以但不好
+            // planets.planet.forEach((item) => {
+            //     console.log(item);
+            // });
+        </script>
+    </body>
+</html>

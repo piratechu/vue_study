@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            class company {
+                static [Symbol.hasInstance](param) {
+                    console.log(param); // o 傳遞進來的資料
+                    console.log("有人查我身分");
+                    //return true; //可以有返回值
+                }
+            }
+            // let o = {};
+            let o = { a: 1, b: 2 };
+            console.log(o instanceof company); //undefined
+
+            //isConcatSpreadable
+            const arr1 = [1, 2, 3];
+            const arr2 = [4, 5, 6];
+            arr2[Symbol.isConcatSpreadable] = false;
+            console.log(arr1.concat(arr2)); //不能和在一起，變成一個陣列中的陣列
+        </script>
+    </body>
+</html>

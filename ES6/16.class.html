@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            //父类
+            class Phone {
+                //构造方法
+                constructor(brand, color, price) {
+                    this.brand = brand;
+                    this.color = color;
+                    this.price = price;
+                }
+                //对象方法
+                call() {
+                    console.log("我可以打电话!!!");
+                }
+            }
+            //子类
+            class SmartPhone extends Phone {
+                constructor(brand, color, price, screen, pixel) {
+                    super(brand, color, price);
+                    this.screen = screen;
+                    this.pixel = pixel;
+                }
+                //子类方法
+                photo() {
+                    console.log("我可以拍照!!");
+                }
+                playGame() {
+                    console.log("我可以玩游戏!!");
+                }
+                //方法重写
+                call() {
+                    console.log("我可以进行视频通话!!");
+                }
+                //静态方法
+                static run() {
+                    console.log("我可以运行程序");
+                }
+                static connect() {
+                    console.log("我可以建立连接");
+                }
+            }
+            //实例化对象
+            const Nokia = new Phone("诺基亚", "灰色", 230);
+            const iPhone6s = new SmartPhone(
+                "苹果",
+                "白色",
+                6088,
+                "4.7inch",
+                "500w"
+            );
+            //调用子类方法
+            iPhone6s.playGame();
+            //调用重写方法
+            iPhone6s.call();
+            //调用静态方法
+            SmartPhone.run();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            //1. 在物件中添加方法 up / down
+            let game = {
+                name: "小蜜蜂",
+                up: function () {
+                    console.log("我是game的 up鍵");
+                },
+                down: function () {
+                    console.log("我是game的 up鍵");
+                },
+            };
+
+            //2. 聲明一個物件，方法一
+            let methods = {
+                up: Symbol(),
+                down: Symbol(),
+            };
+
+            //擴展屬性
+            game[methods.up] = function () {
+                console.log("快速上升");
+            };
+            game[methods.down] = function () {
+                console.log("快速俯衝下降");
+            };
+
+            console.log(game); //觀看 game 物件內容
+
+            //2. 方法二，主要是讓當成物件中的唯一
+            let company = {
+                [Symbol("台雞店")]: { pos: "高雄", taxid: "1234567" },
+                [Symbol("台雞店")]: { pos: "台北", taxid: "4561234" },
+            };
+            console.log(company);
+            //遍歷取值
+            const all = Object.getOwnPropertySymbols(company).map(
+                (item) => company[item]
+            );
+            console.log(all);
+
+            all.forEach((element) => {
+                console.log(element.pos, element.taxid);
+            });
+        </script>
+    </body>
+</html>

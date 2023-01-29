@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            //生成器異步
+            //1s 控制台輸出 111, 2s 輸出 222, 3s 輸出 333
+            //callback 的疊套夢靨
+            // setTimeout(() => {
+            //     console.log("1111");
+            //     setTimeout(() => {
+            //         console.log("2222");
+            //         setTimeout(() => {
+            //             console.log("3333");
+            //         }, 3000);
+            //     }, 2000);
+            // }, 1000);
+
+            //使用generator
+            function one() {
+                setTimeout(() => {
+                    console.log("1111");
+                    iterator.next();
+                }, 1000);
+            }
+            function two() {
+                setTimeout(() => {
+                    console.log("2222");
+                    iterator.next();
+                }, 2000);
+            }
+            function three() {
+                setTimeout(() => {
+                    console.log("3333");
+                    iterator.next();
+                }, 3000);
+            }
+
+            function* gen() {
+                yield one();
+                yield two();
+                yield three();
+            }
+            let iterator = gen();
+            iterator.next();
+        </script>
+    </body>
+</html>

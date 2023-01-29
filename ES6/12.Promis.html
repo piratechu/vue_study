@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            //instance promise
+            //promis 傳入兩個function，成功與失敗(名稱自定義)
+            const p = new Promise(function (resolve, Error) {
+                setTimeout(function () {
+                    //呼叫取得資料 - 成功
+                    // let data = "抓數據庫資料";
+                    // resolve(data);
+                    //失敗
+                    let data = "timeout 沒抓到資料";
+                    Error(data);
+                }, 1000);
+            });
+
+            //promis 調用 then 方法
+            p.then(
+                function (value) {
+                    console.log(value);
+                },
+                function (reason) {
+                    console.error(reason);
+                }
+            );
+        </script>
+    </body>
+</html>

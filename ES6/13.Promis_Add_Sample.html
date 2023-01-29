@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <h1>開啟 console log</h1>
+    <body>
+        <script>
+            //兩數箱加來說明 promise
+
+            function fetchA() {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        //模擬取得資料 delay
+                        console.log("我慢一點,fetchA");
+                        resolve(1);
+                    }, 3000);
+                });
+            }
+
+            function fetchB() {
+                return new Promise(function (resolve, reject) {
+                    //運算速度快
+                    console.log("我已經完成了,fetchB");
+                    resolve(2);
+                });
+            }
+
+            function add(Px, Py) {
+                //x & y 都得到了
+                // Promise.all 等到全部實現（或一個拒絕）
+                return Promise.all([Px, Py]).then(function (value) {
+                    return value[0] + value[1];
+                });
+            }
+
+            add(fetchA(), fetchB())
+                //.then(onFulfilled, onRejected)中可帶入兩個回呼函式
+                //分別又各自帶入參數 resolve & reject 所帶入的值
+                .then(
+                    function (sum) {
+                        console.log(sum);
+                    }
+                    //習慣性就是用 catch 而步在此使用失敗的函數
+                    // function (err) {
+                    //     //reject handeler
+                    //     console.log(err);
+                    // }
+                    //失敗可以交由 catch(onRjected)
+                )
+                .catch(handleErrors);
+        </script>
+    </body>
+</html>
