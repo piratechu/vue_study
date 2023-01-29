@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            const p = new Promise((resolve) => {
+                if (true) {
+                    resolve(`直接執行 Promise`);
+                }
+            });
+
+            function PromiseFn(String) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(function () {
+                        if (String.length >= 5) {
+                            resolve(
+                                `Promise 成功， ${String} 共 ${String.length} 個字 `
+                            );
+                        } else {
+                            reject("Promise 失敗");
+                        }
+                    }, 2000);
+                });
+            }
+
+            async function usePromise() {
+                const data1 = await Promise.all([
+                    PromiseFn("Ryder"),
+                    PromiseFn("youtube"),
+                ]);
+                console.log(data1); // ['Promise 成功， Ryder 共 5 個字 ', 'Promise 成功， youtube 共 7 個字 ']
+                const data2 = await p;
+                console.log(data2); // '直接執行 Promise'
+            }
+            usePromise();
+        </script>
+    </body>
+</html>

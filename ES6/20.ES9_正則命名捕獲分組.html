@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            //定義字串
+            let str = '<a href="http://www.google.com">Google</a>';
+            //抓取 url & 標籤名字
+            const reg = /<a href="(.*)">(.*)<\/a>/;
+
+            const result = reg.exec(str);
+            console.log(result);
+            console.log(result[1]);
+            console.log(result[2]);
+
+            //ES9 命名捕獲，會產生 groups
+            const reg1 = /<a href="(?<url>.*)">(?<text>.*)<\/a>/;
+            const result1 = reg1.exec(str);
+            console.log(result1);
+            console.log(result1.groups.url);
+            console.log(result1.groups.text);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            //創建 promise 物件
+            const p = new Promise((resolve, rejected) => {
+                //resolve("回傳用戶數據");
+                rejected("沒取到數據");
+            });
+            //await 要放在 async 函數中
+            async function main() {
+                //如果 promise 返回 rejected 失敗，要用
+                //try...catch 來捕獲錯誤
+                try {
+                    let result = await p;
+                    console.log(result);
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+
+            //call
+            main();
+        </script>
+    </body>
+</html>

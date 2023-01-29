@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            //async 函數
+            async function fn() {
+                //返回狀態由返回的資料決定
+                //1. 拋出非 promise 型態的資料
+                //return;
+                //返回不是 promise物件，返回結果就會是成功的 promise 物件
+                //return "YYDS";
+
+                //2. 拋出錯誤，物件狀態 rejected
+                //throw new Error("有錯誤了");
+
+                //3. 返回 promise 物件對象
+                return new Promise((resolve, rejected) => {
+                    resolve("成功取得數據");
+                    //rejected("沒取到數據");
+                });
+            }
+            const result = fn();
+            console.log(result); //promise
+
+            result.then(
+                (value) => {
+                    console.log(value);
+                },
+                (reason) => {
+                    console.log(reason);
+                }
+            );
+        </script>
+    </body>
+</html>
