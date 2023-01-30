@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<body>
+<!--
+v-model 只能用在表單類輸入元素或者組件, v-model 默認收集 value值，可不寫 value。
+<input> / <select> / <textarea> / components
+修飾符
+.lazy ——监听 change 事件而不是 input
+.number ——将输入的合法符串转为数字
+.trim ——移除输入内容两端空格
+
+https://cn.vuejs.org/api/built-in-directives.html#v-model
+-->
+  <!-- 準備一個容器 -->
+    <div id="app"><h1>{{ message }}</h1>
+    單向資料綁定 : <input type="text" v-bind:value="name"><br>
+    雙向資料綁定 : <input type="text" v-model="name"><br><br>
+    textarea 綁定
+    <textarea rows="4" cols="50" v-model="name"></textarea>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: 'Data Binding',
+            name: "http://www.google.com"
+          }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!--
+    https://vuejs.org/guide/essentials/event-handling.html#event-modifiers
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+    <style>
+        *{
+        margin-top : 20px;    
+        }
+        .demo1{
+            height: 50px;
+            background-color: skyblue;
+        }
+        .box1{
+            padding: 5px;
+            background-color: skyblue;
+        }
+        .box2{
+            padding: 10px;
+            background-color: greenyellow;
+        }
+        .list{
+            width: 200px;
+            height: 200px;
+            background-color: peru;
+            overflow: auto;
+        }
+        li{
+            height: 100px;
+        }
+    </style>
+</head>
+    <!--
+        Vue 中的事件修飾符
+        1. prevent : 阻止默認事件(常用)
+        2. stop : 阻止冒泡(Bubbling)事件
+        3. once : 事件只觸發一次
+        4. capture : 使用事件的插獲模式
+        5. self : 只有 event.target 是當前操作的元素時才觸發事件
+        6. passive : 事件的默認行為立即執行，無需等待事件回調執行完畢。
+    -->
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app">
+        <h1>{{ message }}</h1><br>
+        <!-- 阻止默認事件 -->
+        <a href="http://www.google.com" @click.prevent="showInfo('使用修飾符 prevent !!')">點我提示訊息(測試 prevent)</a><br>
+        <!-- 阻止事件冒泡 -->
+        <div class="demo1" @click="showInfo('DIV DEMO Event!')">
+            <button @click.stop="showInfo('DIV Button EVENT!')">點我提示訊息(測試 stop)</button>
+            <!--修飾符可以連續寫-->
+            <a href="http://www.google.com" @click.prevent.stop="showInfo('使用修飾符 prevent !!')">點我提示訊息(測試 prevent)</a><br>
+        </div>
+        <!-- 事件只觸發一次 -->
+            <button @click.once="showInfo('Button Once EVENT!')">點我提示訊息(測試 once)</button>
+        <!-- 捕獲事件-->
+        <div class="box1" @click.capture="showInfo('box1 click')">
+                DIV1
+            <div class="box2" @click="showInfo('box2 click')">
+                DIV2
+            </div>
+        </div>
+        <!-- self -->
+        <div class="demo1" @click.self="showInfo('DIV DEMO SELF')">
+            <button @click="showInfo('DIV SELF Button EVENT!')">點我提示訊息(測試 self)</button>
+        </div>
+        <!-- passive , listScroll 背景執行-->
+        <ul class="list" @scroll.passive="listScroll">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: '事件修飾符'
+          }
+        },
+        methods:{
+            showInfo(message){
+                alert(message)
+            },
+            listScroll(e){
+                //抓取每個 element scroll bar 方法
+                // https://blog.csdn.net/chen_sheng_le/article/details/106588522
+                console.log(e.srcElement.scrollTop + e.srcElement.offsetHeight)
+            }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

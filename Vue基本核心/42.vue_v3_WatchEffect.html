@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- include vue -->
+        <script src="./js/vue.global.js"></script>
+    </head>
+    <body>
+        <!-- 準備一個容器 -->
+        <div id="app">
+            <h1>當前計算值 : {{sum }}</h1>
+            <br />
+            <button @click="sum++">點我 ++</button>
+            <h1>{{msg}}</h1>
+            <button @click="msg+='!'">click change msg</button><br />
+            <h1>{{person.name}}</h1>
+            <h1>{{person.age}}</h1>
+            <h1>{{person.job.job1.salary}}</h1>
+            <h5>使用 reactive 監視強制開啟 deep 監視</h5>
+            <button @click="person.name+='#'">change name</button>
+            <button @click="person.age++">change age</button>
+            <button @click="person.job.job1.salary++">
+                change job1 salary
+            </button>
+        </div>
+
+        <script type="module">
+            //將使用到的物件 import
+            const { createApp, ref, watchEffect, reactive } = Vue;
+
+            createApp({
+                setup() {
+                    //定義數據
+                    let sum = ref(0);
+                    let msg = ref("Hello");
+                    //let person = reactive({ name: "Tom", age: 18 });
+                    let person = reactive({
+                        name: "Tom",
+                        age: 18,
+                        job: { job1: { salary: 20 }, job2: { salary: 30 } },
+                    });
+                    //默認第一次就會呼叫，需要watch的時可以直接在內部使用，使用就會被監控。
+                    watchEffect(() => {
+                        const x1 = sum.value;
+                        const x2 = person.job.job1.salary;
+                        console.log("有被 watch 嗎?");
+                        console.log(x1, x2);
+                    });
+
+                    //以物件方式返回
+                    return {
+                        sum,
+                        msg,
+                        person,
+                    };
+                },
+            }).mount("#app");
+        </script>
+    </body>
+</html>

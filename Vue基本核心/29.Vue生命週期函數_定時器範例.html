@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 生命週期</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+  </head>
+
+  <body>
+    <!-- 準備一個容器 -->
+    <!--功能: page load 就直接，設定一個定時器，做文字的淡入淡出-->
+    <div id="app">
+      <h1>{{ message }}</h1>
+      <hr />
+      <!--如果傳遞的事物件型式，要加{}-->
+      <h2 :style="{opacity:opacityValue}">終於進入Vue的重點了!!</h2>
+      <button @click="stop">stop Interval</button>
+      <button @click="killVm">Stop VM</button>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      const vm = createApp({
+        //template: "<h1>我被 template了</h1>",
+        data() {
+          return {
+            message: "Vue 生命週期",
+            opacityValue: 1,
+          };
+        },
+        // method 調用要透過事件驅動
+        methods: {
+          stop() {
+            console.log("stop interval");
+            clearInterval(this.stopTimer);
+          },
+          killVm() {
+            vm.unmount();
+          },
+        },
+        //vue 完成模板的解析，將真實 DOM 元素放入頁面後，調用 mounted
+        mounted() {
+          //document.querySelector('div').innerHTML = '<h1> mounted</h1>'
+          console.log("Lifecycle : mounted");
+          this.stopTimer = setInterval(() => {
+            // console.log("setInterval");
+            this.opacityValue -= 0.01;
+            if (this.opacityValue <= 0) this.opacityValue = 1;
+          }, 16);
+        },
+        // beforeUnmount() {
+        //   console.log("beforeUnmount stop Interval!!");
+        //   clearInterval(this.stopTimer);
+        // },
+      });
+      vm.mount("#app");
+      // 還是呼叫到外部
+      // windows.onload = () => {
+      //   vm.change();
+      // }
+      //通過外部定時器實現(不推薦此做法)
+      // setInterval(() => {
+      //   vm.opacityValue -= 0.01;
+      //   if(vm.opacityValue <= 0) vm.opacityValue = 1;
+      // }, 16);
+    </script>
+  </body>
+</html>

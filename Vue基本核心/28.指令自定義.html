@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指令自定義</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app">
+      <h1>{{ message }}</h1>
+
+      <h2>當前的n值是: <span v-text="n"></span></h2>
+      <h2>放大10倍後的n值是: <span v-big="n"></span></h2>
+      <button @click="n++">點我 N+1 </button><br>
+      <input type="text" v-disabled v-bind:value="n"><br>
+      <input type="text" v-focusbind:value="n">
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      const vm = createApp({
+        data() {
+          return {
+            message: '指令自定義 directives',
+            n:1
+          }
+        },
+        //指令只能定義小寫
+        directives:{
+          //何時調用?
+          // 1. 指令與元素成功綁定時 2.指令所在的模板被重新解析時
+          big(element, binding){
+            element.innerText = binding.value * 10;
+          },
+          disabled(element, binding){
+            //console.log(element, binding)
+            element.disabled = true;
+            element.style.background = '#bbbbbb';
+          },
+          // focusbind:{
+          //   created(el, binding){
+          //     //console.log(el,binding);
+          //     el.value = binding.value;
+          //   },
+          //   mounted(el, binding){
+          //     //console.log(el,binding);
+          //     el.focus();
+          //   },
+          //   updated(el, binding){
+          //     //console.log(el,binding);
+          //     el.value = binding.value;
+          //     el.focus();
+          //   }
+          // }
+        }  
+      });
+      // 全局變數
+      vm.directive('focusbind',{
+        created(el, binding){
+              //console.log(el,binding);
+              el.value = binding.value;
+            },
+            mounted(el, binding){
+              //console.log(el,binding);
+              el.focus();
+            },
+            updated(el, binding){
+              //console.log(el,binding);
+              el.value = binding.value;
+              el.focus();
+            }
+      })
+      vm.mount('#app');
+    </script>    
+</body>
+</html>
+<!--
+// Vue3 版本, 
+參數有四個 (el, binding, vnode, prevVnode)
+參考網頁 : https://cn.vuejs.org/guide/reusability/custom-directives.html
+
+el : 綁定到的元素，可以用於直接操作 DOM
+binding : 一個物件，包含以下屬性
+  * value : 傳遞給指令的值 e.g v-xxx = "yyy"，會傳遞 yyy
+  * oldvalue : 之前的值，只有在 beforeupdate & update 中可以用，無論值是否有被更改，他都可以用。
+  * arg : 傳遞給指令的參數(如果有的話)，e.g v-focusbind:foo 中， 參數就是 foo
+  * modifiers : 修飾符(如果有的話) e.g v-focusbind.foo.bar，修飾符是 {foo:ture, bar:true}
+  * instance : 使用該指令的組件實例(instance of the component)
+  * dir : 指令的定義物件(object)
+vnode :  Virtual DOM
+preNode: 前次渲染中代表指令所綁定的 vnode，僅在 beforeUpdate & updated 中可用
+
+
+app.directive('my-directive', {
+  // 在綁定DOM的 attribute 或事件監聽被使用之前調用
+  created() {},
+  // 在綁定DOM的父組件掛載之前調用
+  beforeMount() {},
+  // 綁定DOM的父組件被掛載時調用
+  mounted() {},
+  // 在包含組件的 VNode 更新之前調用
+  beforeUpdate() {},
+  // 在包含組件的 VNode 及其子組件的 VNode 更新之後調用
+  updated() {},
+  // 在綁定DOM的父組件移除之前調用
+  beforeUnmount() {},
+  // 移除綁定DOM的父組件時調用
+  unmounted() {}
+})
+
+-->

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- include vue -->
+        <script src="./js/vue.global.js"></script>
+    </head>
+    <body>
+        <!-- 準備一個容器 -->
+        <div id="app">
+            <h1>當前計算值 : {{sum }}</h1>
+            <br />
+            <button @click="sum++">點我 ++</button>
+            <h1>{{msg}}</h1>
+            <button @click="msg+='!'">click change msg</button><br />
+            <h1>{{person.name}}</h1>
+            <h1>{{person.age}}</h1>
+            <h1>{{person.job.job1.salary}}</h1>
+            <h5>使用 reactive 監視強制開啟 deep 監視</h5>
+            <button @click="person.name+='#'">change name</button>
+            <button @click="person.age++">change age</button>
+            <button @click="person.job.job1.salary++">
+                change job1 salary
+            </button>
+        </div>
+
+        <script type="module">
+            //將使用到的物件 import
+            const { createApp, ref, watch, reactive } = Vue;
+
+            createApp({
+                setup() {
+                    //定義數據
+                    let sum = ref(0);
+                    let msg = ref("Hello");
+                    //let person = reactive({ name: "Tom", age: 18 });
+                    let person = reactive({
+                        name: "Tom",
+                        age: 18,
+                        job: { job1: { salary: 20 }, job2: { salary: 30 } },
+                    });
+                    //如果 ref 要監控物件需要使用 xxxx.value，因為物件會被變更成物件型式
+                    //如果要監控更深一層就是增加 deep 屬性
+                    //情況一，監視 ref 所定義的一個響應式數據
+                    watch(
+                        sum,
+                        (newValue, oldValue) => {
+                            console.log("watch sum:", newValue, oldValue);
+                        },
+                        { immediate: true }
+                    );
+
+                    //情況二，監視 ref 多個響應式數據
+                    //可以多寫幾個 watch，如果寫在同一個
+                    // watch(
+                    //     [sum, msg],
+                    //     (newValue, oldValue) => {
+                    //         console.log("watch sum:", newValue, oldValue);
+                    //     },
+                    //     {}
+                    // );
+                    //情況三,物件監控, reactive，不會顯示 oldvalue。若有需要自行處理。(全部)
+                    //reactive直接就開啟深度監視，沒有 deep ture flag
+                    // watch(person, (newValue, oldValue) => {
+                    //     console.log("person change,", oldValue, newValue);
+                    // });
+                    //情況四，避免效率問題，只監視 reactive 某個屬性變化，要用函數方式
+                    //錯誤訊息
+                    // watch(person.age, (newValue, oldValue) => {
+                    //     console.log("person age chg,", oldValue, newValue);
+                    // });
+                    //正確寫法
+                    // watch(
+                    //     () => person.age,
+                    //     (newValue, oldValue) => {
+                    //         console.log("person age chg,", oldValue, newValue);
+                    //     }
+                    // );
+                    //情況五，監視reactive所定義的一個響應式數據中某幾個屬性，要用陣列包起來
+                    // watch(
+                    //     [() => person.name, () => person.age],
+                    //     (newValue, oldValue) => {
+                    //         console.log("person watch,", oldValue, newValue);
+                    //     }
+                    // );
+                    //特殊情況，坑....如果你想單獨監視物件中更深的層次要用 deep
+                    // watch(
+                    //     () => person.job,
+                    //     (newValue, oldValue) => {
+                    //         console.log("person watch,", oldValue, newValue);
+                    //     },
+                    //     { deep: true }
+                    // );
+
+                    //以物件方式返回
+                    return {
+                        sum,
+                        msg,
+                        person,
+                    };
+                },
+            }).mount("#app");
+        </script>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+    監視屬性 watch
+    1. 當監視屬性變化時，回調函數自動調用，進行相關操作
+    2. 監視的屬性必須存在，才能進行監視。但不存在也不會報錯
+    3. 監視的兩種寫法
+        (1) new Vue 時傳入 watch 配置
+        (2) 通種 vm.$watch 監視
+-->
+<body>
+    <!-- 準備一個容器 -->
+    <div id="app">
+        <h1>{{ message }}</h1><br>
+        <h2> 今天天氣很 {{info}}</h2><BR><BR>
+        <!-- 可以寫一些簡單的語句，但不建議這樣做太亂
+        <button @click="isHot = !isHot">切換天氣</button><BR><BR>
+        -->
+        <button @click="changeWeather">切換天氣</button><BR><BR>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue
+
+        const vm = createApp({
+            data() {
+                return {
+                    message: '監視屬性 Watch',
+                    isHot: true
+                }
+            },
+            computed: {
+                info() {
+                    return this.isHot ? '炎熱' : '涼爽'
+                }
+            },
+            methods: {
+                changeWeather() {
+                    //console.log(this.isHot)
+                    this.isHot = !this.isHot
+                }
+            },
+            watch: {
+                isHot: {
+                    //immediate: false, //初始化時讓 handler調用
+                    //handler 甚麼時候調用? 當 isHot 發生改變
+                    handler(newValue, oldValue) {
+                        console.log(newValue, oldValue)
+
+                    }
+                }
+            }
+        }).mount('#app')
+
+        // 後續才知道要監控甚麼項目，可用此方法建立
+        // vm.$watch('isHot', {
+        //     //immediate: false, //初始化時讓 handler調用
+        //     //handler 甚麼時候調用? 當 isHot 發生改變
+        //     handler(newValue, oldValue) {
+        //         console.log(newValue, oldValue)
+        //     }
+        //     })
+    </script>
+</body>
+
+</html>

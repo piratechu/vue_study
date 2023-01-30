@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- include vue -->
+        <script src="./js/vue.global.js"></script>
+    </head>
+    <body>
+        <!-- 準備一個容器 -->
+        <div id="app">
+            <button @click="isShow = !isShow">click me</button>
+            <my-point v-if="isShow"></my-point>
+        </div>
+
+        <script>
+            const { createApp, ref, reactive, onMounted, onBeforeUnmount } =
+                Vue;
+
+            const app = createApp({
+                setup() {
+                    let isShow = ref(true);
+                    let { x, y } = usePoint();
+                    return { isShow, x, y };
+                },
+            });
+
+            app.component("my-point", {
+                template: `
+                    <h1>{{message}}</h1>
+                <h1>X: {{x}}, y:{{y}}</h1>
+
+            `,
+                setup() {
+                    //定義數據
+                    let message = "自定義 hook";
+                    //組合成自定義 hook 可以參考，vue-router範例中 about 頁面
+                    //他可以把setup當中裡面再將重複的功能抽出，透過 import 方式複用
+                    //物件建議採用 reactive 進行響應式數據定義
+                    let point = reactive({ x: 0, y: 0 });
+
+                    function getPoint(event) {
+                        point.x = event.pageX;
+                        point.y = event.pageY;
+                        console.log(event.pageX, event.pageY);
+                    }
+                    onMounted(() => {
+                        //應該抽出來為一個函數
+                        window.addEventListener("click", getPoint);
+                        //這一段的作法會造成無法移除，甚至會重複 add event listener
+                        // window.addEventListener("click", (event) => {
+                        //     point.x = event.pageX;
+                        //     point.y = event.pageY;
+                        //     console.log(event.pageX, event.pageY);
+                        // });
+                    });
+                    onBeforeUnmount(() => {
+                        console.log("onBeforeUnmount~ 我被呼叫了");
+                        window.removeEventListener("click", getPoint);
+                    });
+                    return {
+                        message,
+                    };
+                },
+            });
+
+            app.mount("#app");
+        </script>
+    </body>
+</html>

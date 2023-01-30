@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+    深度監視
+    (1) Vue 中的 watch默認不監測對象內部的改變(一層)
+    (2) 配置 deep:true 可以監測對象內部值改變(多層)
+    備註
+        (1) Vue 自身可以監測對象內部值改變，但Vue提供的watch默認不可以
+        (2) 使用watch時根據數據的具體結構，決定是否採用深度監視
+-->
+<body>
+    <!-- 準備一個容器 -->
+    <div id="app">
+        <h1>{{ message }}</h1><br>
+        <h2> 今天天氣很 {{info}}</h2><BR><BR>
+        <!-- 可以寫一些簡單的語句，但不建議這樣做太亂
+        <button @click="isHot = !isHot">切換天氣</button><BR><BR>
+        -->
+        <button @click="changeWeather">切換天氣</button><BR><BR>
+        <hr>
+        <h3>a的值是:{{numbers.a}}</h3> <br>
+        <button @click="numbers.a++">點我a++</button>
+        <hr>
+        <h3>b的值是:{{numbers.b}}</h3> <br>
+        <button @click="numbers.b++">點我b++</button>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+
+        const vm = createApp({
+            data() {
+                return {
+                    message: '深度監視 Watch',
+                    isHot: true,
+                    numbers:{
+                        a:1,
+                        b:2
+                    }
+
+                }
+            },
+            computed: {
+                info() {
+                    return this.isHot ? '炎熱' : '涼爽'
+                }
+            },
+            methods: {
+                changeWeather() {
+                    //console.log(this.isHot)
+                    this.isHot = !this.isHot
+                }
+            },
+            watch: {
+                isHot: {
+                    //immediate: false, //初始化時讓 handler調用
+                    //handler 甚麼時候調用? 當 isHot 發生改變
+                    handler(newValue, oldValue) {
+                        console.log(newValue, oldValue)
+
+                    }
+                },
+                //監視結構中某個屬性變化
+                'numbers.a':{
+                    handler(){
+                        console.log('changed')
+                    }
+                },
+                //監視整個結構變化，如果沒有加 deep 是監控 members 屬性位址是否變動
+                members:{
+                    deep:true,
+                    handler(){
+                        console.log("member內的屬性有變化")
+                    }
+                }
+
+            }
+        }).mount('#app')
+    </script>
+</body>
+
+</html>

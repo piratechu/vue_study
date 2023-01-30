@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="app">
+        <h1>{{ message }}</h1><br>
+        <h2> 今天天氣很 {{info}}</h2><BR><BR>
+        <!-- 可以寫一些簡單的語句，但不建議這樣做太亂
+        <button @click="isHot = !isHot">切換天氣</button><BR><BR>
+        -->
+        <button @click="changeWeather">切換天氣</button><BR><BR>
+        <hr>
+        <h3>a的值是:{{numbers.a}}</h3> <br>
+        <button @click="numbers.a++">點我a++</button>
+        <hr>
+        <h3>b的值是:{{numbers.b}}</h3> <br>
+        <button @click="numbers.b++">點我b++</button>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+
+        const vm = createApp({
+            data() {
+                return {
+                    message: '深度監視 Watch',
+                    isHot: true,
+                    numbers:{
+                        a:1,
+                        b:2
+                    }
+
+                }
+            },
+            computed: {
+                info() {
+                    return this.isHot ? '炎熱' : '涼爽'
+                }
+            },
+            methods: {
+                changeWeather() {
+                    //console.log(this.isHot)
+                    this.isHot = !this.isHot
+                }
+            },
+            watch: {
+                //正常寫法
+                // isHot: {
+                //     //immediate: false, //初始化時讓 handler調用
+                //     //handler 甚麼時候調用? 當 isHot 發生改變
+                //     handler(newValue, oldValue) {
+                //         console.log(newValue, oldValue)
+
+                //     }
+                //簡寫，只有 handler 的時候可以這樣使用
+                    // isHot(newValue, oldValue){
+                    //     console.log(newValue, oldValue)
+                    // }
+                }
+        }).mount('#app')
+
+        //簡寫
+        vm.$watch('isHot', function(newValue,oldValue){
+            console.log(newValue, oldValue)
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-html</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+  v-text
+    1. 作用 : 在其所在的節點中渲染文本內容
+    2. 與插值語法的區別 : v-text 會替換掉節點中的內容， {{XXX}} 不會
+    3. 如果有標籤也是以文字呈現
+-->
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app">
+      <h1>{{ message }}</h1>
+      <h1 v-text="message"></h1>
+      <h1 v-html="str"></h1>
+      <p v-html="str"></p>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: 'v-html',
+            str: '<a href="">v-html 點我</a>'
+          }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

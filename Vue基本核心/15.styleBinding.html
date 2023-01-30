@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 樣式綁定-->
+    <style>
+      .basic{
+        width: 400px;
+        height: 100px;
+        border: 10px solid black;
+      }
+      .happy{
+        font-size: large;
+        border: 10px solid green;
+      }
+      .sad{
+        font-size: small;
+        border: 10px solid blue;
+      }
+      .normal{
+        font-size:medium;
+        border: 10px solid black;
+      }
+
+      .auo1{
+        border: 10px solid blueviolet;
+      }
+      .auo2{
+        font-size: larger;
+      }
+      .auo3{
+        background-color: orange;
+      }
+    </style>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+      1. class 樣式
+        寫法 :class="xxx" xxx 可以字串、物件、陣列
+        字串寫法適用於: 類名不確定，要動態取得
+        陣列寫法適用於: 要綁定多個樣式，個數不確定，名字也不確定
+        物件寫法適用於: 要綁定多個樣式，個數確定、名字也確定，但不確定用不用
+      2. style 樣式
+        :style="{fontSize: xxx}" 其中 xxx 式動態值
+        :style="[a,b]" 其中 a,b 式樣式對象
+
+-->
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app">
+      <!-- 綁定的class 樣式--字符串寫法，適用於 : 樣式的類名不確定，需要動態指定 -->      
+      <div class="basic" :class="mood" @click="changeMood"><h1>{{ message1 }}</h1></div>
+      <!-- 綁定的class 樣式--數組寫法，適用於 : 樣式的個數不確定，名字也不確定 -->      
+      <div class="basic" :class="classArr"><h1>{{ message2 }}</h1></div>
+      <!-- 綁定的class 樣式--物件(Object)寫法，適用於 : 要綁定樣式個數確定、名字也確定，要動態決定用不用 -->      
+      <div class="basic" :class="classObj"><h1>{{ message3 }}</h1></div>
+      <!-- 綁定的 Style 樣式--物件(Object)寫法 -->
+      <div class="basic" :style="sytleObj">{{ message4 }}</div>
+    </div>
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message1: '樣式綁定 Sytle Bindings',
+            message2: '樣式綁定，數組',
+            message3: '樣式綁定，物件',
+            message4: '樣式綁定， Style',
+            mood: 'normal',
+            classArr: ['auo1','auo2','auo3'],
+            classObj:{
+              auo1:true,
+              auo2:false,
+              auo3:true
+            },
+            //綁定的樣式名稱，必須式CSS的定義屬性，用 - 串起的名字，必須把 - 移除
+            sytleObj:{
+              fontSize: '40px'
+            }
+          }
+        },
+        methods:{
+          changeMood(){
+            const arr = ['happy','sad','normal']
+            this.mood = arr[Math.floor(Math.random()*3)]
+          }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 生命週期</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+  </head>
+
+  <body>
+    <!-- 準備一個容器 -->
+    <!--功能: page load 就直接，設定一個定時器，做文字的淡入淡出-->
+    <div id="app">
+      <h1>{{ message }}</h1>
+      <hr />
+      <!--如果傳遞的事物件型式，要加{}-->
+      <h2 :style="{opacity:opacityValue}">終於進入Vue的重點了!!</h2>
+      <h2>當前 n值 : {{n}}</h2>
+      <button @click="add">N+1</button><br>
+      <button @click="killVm">消滅 VM</button>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      const vm = createApp({
+        //template: "<h1>我被 template了</h1>",
+        data() {
+          return {
+            message: "Vue 生命週期",
+            opacityValue: 1,
+            n: 1,
+          };
+        },
+        // method 調用要透過事件驅動
+        methods: {
+          change() {
+            setInterval(() => {
+              vm.opacityValue -= 0.01;
+              if (vm.opacityValue <= 0) vm.opacityValue = 1;
+            }, 16);
+          },
+          add(){
+            this.n++
+            console.log("call add function")
+          },
+          killVm(){
+            console.log("Kill VM!!")
+            vm.unmount();
+          }
+        },
+        watch:{
+          n(){
+            console.log('watch n changed')
+          }
+        },
+        //Vue 實體被建立，狀態與事件都尚未初始化, Vue2.0 就不在使用，統一改成 setup
+        beforeCreate() {
+          //document.querySelector('div').innerHTML = '<h1> beforeCreate</h1>'
+          console.log("Lifecycle : beforeCreate");
+        },
+        //Vue 實體被建立，狀態與事件已初始化完成(prop, data, computed 等屬性已建立，vm.$el 屬性無法使用)
+        //Vue2.0 就不在使用，統一改成 setup
+        created() {
+          //document.querySelector('div').innerHTML = '<h1> created</h1>'
+          console.log("Lifecycle : created");
+        },
+        //Vue 實體尚未與模板 (DOM 節點) 綁定(虛擬 DOM)，此時針對 DOM 做任何操作修改，最後會被vnode->DOM 渲染蓋過去。
+        beforeMount() {
+          console.log("Lifecycle : beforeMount");
+          //document.querySelector("div").innerHTML = "<h1> beforeMount</h1>";
+          //debugger;
+        },
+        //vue 完成模板的解析，將真實 DOM 元素放入頁面後，調用 mounted
+        mounted() {
+          //document.querySelector('div').innerHTML = '<h1> mounted</h1>'
+          console.log("Lifecycle : mounted");
+          // setInterval(() => {
+          //   vm.opacityValue -= 0.01;
+          //   if (vm.opacityValue <= 0) vm.opacityValue = 1;
+          // }, 16);
+        },
+        //此時數據是新的，頁面是舊的。頁面尚未和數據保持同步。
+        beforeUpdate() {
+          console.log("Lifecycle : beforeUpdate");
+          //console.log("n:" + this.n);
+
+        },
+        //此時數據及頁面保持同步更新 model的資料已更新到 view 上
+        updated(){
+          console.log("Lifecycle : updated");
+          //console.log("n:" + this.n);          
+        },
+        //這裡變更不會在觸發其他狀態，只會往 unmounted 走。
+        //建議在此處關閉定時器、取消訂閱消息、解除自定義事件等。
+        beforeUnmount(){
+          console.log("Lifecycle : beforeUnmount");
+          this.add();
+          console.log(this.n);
+          debugger;
+        },
+        unmounted(){
+          console.log("Lifecycle : unmounted");
+        }
+      });
+
+      vm.mount("#app");
+
+      // 還是呼叫到外部
+      // windows.onload = () => {
+      //   vm.change();
+      // }
+      //通過外部定時器實現(不推薦此做法)
+      // setInterval(() => {
+      //   vm.opacityValue -= 0.01;
+      //   if(vm.opacityValue <= 0) vm.opacityValue = 1;
+      // }, 16);
+    </script>
+  </body>
+</html>

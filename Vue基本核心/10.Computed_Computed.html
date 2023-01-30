@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app"><h1>{{ message }}</h1><br>
+        姓 : <input type="text" v-model="firstName"> <br><br>
+        名 : <input type="text" v-model="lastName"> <br><br>
+        姓名 : <span>{{fullName}}</span> <br><br>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            //以下是屬性
+            message: 'Computed 範例',
+            firstName : '張',
+            lastName : '三'
+          }
+        },
+        //無法處理異步任務(e.g setTimeout)
+        computed:{
+            /* 完整寫法
+            fullName:{
+              //當有人讀取 fullname時，get就會被調用，且返回作為 fullName的值
+              //只會讀取一次，會有緩存的機制
+              //調用時機，1.初次讀取 2.依賴數據發生變化
+              get(){
+                console.log("Get被呼叫")
+                return this.firstName + '-' + this.lastName
+              },
+              //當fullname 被修改的時候
+              set(value){
+                //
+                const arr = value.split('-')
+                this.firstName = arr[0]
+                this.lastName = arr[1]
+
+              }
+            }*/
+            //簡寫，但只限使用在當 computed 只有get時
+            fullName(){
+              console.log("Get被呼叫")
+              return this.firstName + '-' + this.lastName
+            }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+  </head>
+  <!--
+    Vue 的單一文件 *.vue 文件 (Single-File Component 簡稱 SFC)，是一種特殊文件
+    會需要透過 Vite or Vue CLi 的一些 webpack 工具，這個部份後面課程在討論。
+
+    單文件開發是 HTML / CSS / JAVASCRIPT 的延伸。
+    <template>、<script>、<style> 三塊在同一個文件封裝、組合元件的
+    視圖、邏輯和樣式。
+  -->
+  <body>
+    <!-- 準備一個容器 -->
+    <div id="app">
+      <!--在跟實體使用自訂元件-->
+      <my-comp></my-comp>
+      <my-comp></my-comp>
+      <my-comp></my-comp>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      const vm = createApp({});
+
+      vm.component("my-comp", {
+        template: `
+        <div>
+          <div> count: {{count}} </div>
+          <button @click="count++">點我 +1 </button>
+        </div>
+        `,
+        data(){
+          return{
+            count:0
+          }
+        }
+      });
+      vm.mount("#app");
+    </script>
+  </body>
+</html>

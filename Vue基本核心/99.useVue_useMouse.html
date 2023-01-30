@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+    <!--import vueuse cdn-->
+    <script src="https://unpkg.com/@vueuse/shared"></script>
+    <script src="https://unpkg.com/@vueuse/core"></script>
+    <!-- import CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/element-plus/dist/index.css"
+    />
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/element-plus/theme-chalk/dark/css-vars.css"
+    />
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <style>
+        .input-wrapper {
+            width: 5rem;
+            height: 4rem;
+            border-radius: 0.6rem/0.8rem;
+            background-color: #f35b04;
+            overflow: hidden;
+            box-shadow: inset 0 0 0.8rem 0.1rem rgba(darken(#f35b04, 20%), 0.2),
+                0 20px 30px -10px rgba(darken(#f35b04, 20%), 0.26);
+        }
+
+        .input {
+            height: 100%;
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: center;
+            color: #fff;
+            font-weight: 900;
+            font-size: 2rem;
+            outline: none;
+            transition-property: transform, opacity;
+            text-transform: linear;
+            transition-duration: 0.25s;
+        }
+    </style>
+    <body>
+        <div id="app" class="flex justify-center">
+            <h1>{{message}}</h1>
+            <div class="input-wrapper"><input class="input" :value="x" /></div>
+            <br />
+            <div class="input-wrapper"><input class="input" :value="y" /></div>
+            <br />
+            <span @click.stop="toggleDark()">暗黑模式</span>
+            <el-switch size="small" v-model="isDark"></el-switch>
+        </div>
+    </body>
+    <script>
+        const { createApp } = Vue;
+        const { useMouse, useDark, useToggle } = VueUse;
+
+        const app = createApp({
+            setup() {
+                const { x, y } = useMouse();
+                const isDark = useDark();
+                const toggleDark = useToggle(isDark);
+                return { x, y, isDark };
+            },
+            data() {
+                return {
+                    message: "VueUse + Element Plus",
+                };
+            },
+        });
+        app.use(ElementPlus);
+        app.mount("#app");
+    </script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<body>
+  <!--
+    模板語法
+    1. 插值語法 : 放在標籤體內或者Javascript 表達式，可以直接讀取data中的屬性
+    2. 指令語法 : 用於解析標籤(包括: 標籤屬性、內容、綁定事件)
+    備註 : Vue 中有很多指令，且形式上是 v-???，此處我們只拿 v-bind 舉例
+    參考 : https://cn.vuejs.org/guide/essentials/template-syntax.html
+
+  -->
+  <!-- 準備一個容器 -->
+    <div id="app"><h1>{{ message }}</h1>
+    <h1>Template Syntax</h1>
+    <!-- v-bind 簡寫直接用 : 即可 -->
+    <a v-bind:href="url">Google1</a>
+    <a :href="url">Google2</a>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: 'Hello Vue!!',
+            url: "http://www.google.com"
+          }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

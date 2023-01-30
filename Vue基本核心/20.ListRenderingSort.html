@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- include vue -->
+  <script src="./js/vue.global.js"></script>
+</head>
+<!--
+    v-for 指令
+      1. 用於展示列表數據
+      2. 語法: v-for-"(item,index) in xxxx" :key="yyy"
+      3. 可遍歷 : 數組(array)、對象(object)、字符串、指定次數
+-->
+
+<body>
+  <!-- 準備一個容器 -->
+  <div id="app">
+    <h1>{{ message }}</h1><br>
+    <!-- input 輸入回到 vue，透過 v-model 綁定-->
+    <input type="text" placeholder="請輸入" v-model="computedKeyWord">
+    <button @click="sortType = 2" :>年齡升序</button>
+    <button @click="sortType = 1">年齡降序</button>
+    <button @click="sortType = 0">原順序</button>
+    <ul>
+      <li v-for="(p,index) in computedFilter" :key="index">
+        {{p.name}} - {{p.age}} - {{p.sex}}
+      </li>
+    </ul>
+  </div>
+  <script>
+    const { createApp } = Vue
+
+    createApp({
+      data() {
+        return {
+          message: '列表排序渲染 List Rendering Sorting',
+          persons: [
+            { id: '001', name: '陳三梅', age: 18, sex: '男' },
+            { id: '002', name: '李小花', age: 55, sex: '女' },
+            { id: '003', name: '馬小梅', age: 5, sex: '女' },
+            { id: '004', name: '陳大壯', age: 42, sex: '男' }
+          ],
+          computedKeyWord:'',
+          sortType:0 //0:原順序, 1: 降序, 2:升序
+
+        }
+      },
+      computed:{
+        computedFilter(){
+          //取得過濾陣列
+          const arr =  this.persons.filter((p)=>{
+            return p.name.indexOf(this.computedKeyWord) !== -1
+          })
+          //確認 sortType
+          if(this.sortType){
+            arr.sort((p1,p2)=>{
+              return this.sortType === 1 ? p2.age - p1.age : p1.age - p2.age
+            })
+          }
+          return arr
+        }
+
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- include vue -->
+  <script src="./js/vue.global.js"></script>
+</head>
+<!--
+    v-for 指令
+      1. 用於展示列表數據
+      2. 語法: v-for-"(item,index) in xxxx" :key="yyy"
+      3. 可遍歷 : 數組(array)、對象(object)、字符串、指定次數
+-->
+
+<body>
+  <!-- 準備一個容器 -->
+  <div id="app">
+    <h1>{{ message }}</h1><br>
+    <!-- input 輸入回到 vue，透過 v-model 綁定-->
+    <h2>用 watch 實現</h2>
+    <input type="text" placeholder="請輸入" v-model="watchKeyWord">
+    <ul>
+      <li v-for="(p,index) in watchFilter" :key="index">
+        {{p.name}} - {{p.age}} - {{p.sex}}
+      </li>
+    </ul>
+    <hr>
+    <h2>用 computed 實現</h2>
+    <input type="text" placeholder="請輸入" v-model="computedKeyWord">
+    <ul>
+      <li v-for="(p,index) in computedFilter" :key="index">
+        {{p.name}} - {{p.age}} - {{p.sex}}
+      </li>
+    </ul>
+  </div>
+  <script>
+    const { createApp } = Vue
+
+    createApp({
+      data() {
+        return {
+          message: '列表過濾渲染 List Rendering Filter',
+          persons: [
+            { id: '001', name: '陳三梅', age: 18, sex: '男' },
+            { id: '002', name: '李小花', age: 25, sex: '女' },
+            { id: '003', name: '馬小梅', age: 5, sex: '女' },
+            { id: '004', name: '陳大壯', age: 42, sex: '男' }
+          ],
+          watchFilter:[],
+          watchKeyWord: '',
+          computedKeyWord:''
+        }
+      },
+      computed:{
+        computedFilter(){
+          return this.persons.filter((p)=>{
+            return p.name.indexOf(this.computedKeyWord) !== -1
+          })
+        }
+
+      },
+      watch: {
+        // 簡寫的方式，但會造成搜索無初始值，顯示異常
+        // keyWord(val){
+        //   this.watchFilter = this.persons.filter((p)=>{
+        //     return p.name.indexOf(val) != -1          
+        // })
+
+        watchKeyWord:{
+          //初始化時是否調用
+          immediate:true,
+          handler(val){
+          this.watchFilter = this.persons.filter((p)=>{
+            return p.name.indexOf(val) !== -1
+          })
+          //filter() 會回傳一個陣列，其條件是 return 後方為 true 的物件，很適合用在搜尋符合條件的資料
+          //https://www.casper.tw/javascript/2017/06/29/es6-native-array/
+          }
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

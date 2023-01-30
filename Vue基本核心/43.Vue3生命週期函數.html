@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- include vue -->
+        <script src="./js/vue.global.js"></script>
+    </head>
+    <body>
+        <!-- 準備一個容器 -->
+        <div id="app">
+            <button @click="isShow = !isShow">點我看物件消失變化</button>
+            <my-count v-if="isShow"></my-count>
+        </div>
+        <script>
+            const {
+                createApp,
+                ref,
+                onMounted,
+                onUpdated,
+                onUnmounted,
+                onBeforeMount,
+                onBeforeUpdate,
+                onBeforeUnmount,
+            } = Vue;
+
+            const app = createApp({
+                setup() {
+                    let isShow = ref(true);
+
+                    return {
+                        isShow,
+                    };
+                },
+                //通過配置項的生命週期
+                // beforeCreate() {
+                //     console.log("beforeCreate()");
+                // },
+
+                // created() {
+                //     console.log("created");
+                // },
+
+                // beforeMount() {
+                //     console.log("beforeMount");
+                // },
+
+                // mounted() {
+                //     console.log("mounted");
+                // },
+
+                // beforeUpdate() {
+                //     console.log("beforeUpdate");
+                // },
+
+                // updated() {
+                //     console.log("updated");
+                // },
+
+                // beforeUnmount() {
+                //     //使用 SFC 可以透過 v-if 來觀察，物件的週期變化呼叫
+                //     console.log("beforeUnmount");
+                // },
+
+                // unmounted() {
+                //     //使用 SFC 可以透過 v-if 來觀察，物件的週期變化呼叫
+                //     console.log("unmounted");
+                // },
+            });
+            app.component("my-count", {
+                template: `
+                    <h1>{{message}}</h1>
+                    <h1>目前和: {{ sum }}</h1>
+                    <button @click="sum++">點我生命週期變化</button>
+
+            `,
+                setup() {
+                    console.log("--setup");
+                    //定義數據
+                    let message = "Vue3 生命週期";
+                    let sum = ref(0);
+                    //composition api 生命週期 start
+                    //若要測試原來的註解掉，將原來的開啟驗證
+                    onBeforeMount(() => {
+                        console.log("--onBeforeMount");
+                    });
+
+                    onMounted(() => {
+                        console.log("--onMounted");
+                    });
+
+                    onBeforeUpdate(() => {
+                        console.log("--onBeforeUpdate");
+                    });
+
+                    onUpdated(() => {
+                        console.log("--onUpdated");
+                    });
+
+                    onBeforeUnmount(() => {
+                        console.log("--onBeforeUnmount");
+                    });
+
+                    onUnmounted(() => {
+                        console.log("--onUnmounted");
+                    });
+                    //composition api 生命週期 end
+                    return {
+                        message,
+                        sum,
+                    };
+                },
+            });
+            app.mount("#app");
+        </script>
+    </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+    vue 的 key 有甚麼作用
+    1. 虛擬DOM中Key的作用
+      key 是虛擬DOM對象的標示，當數據發生變化時，VUE會根據新數據生成新的虛擬DOM，
+      隨後VUE進行新舊虛擬DOM的差異比較，規則如下
+    2. 對比規則
+      (1) 舊虛擬DOM中找到與新虛擬DOM相同的 key
+         a. 若虛擬 DOM 中內容沒變，直接使用之前的真實DOM
+         b. 若虛擬 DOM 中內容變了，則生成新的真實DOM，隨後替換掉頁面中之前的真實DOM
+      (2) 舊虛擬DOM中未找到與新虛擬DOM相同的KEY，創建新的真實DOM，隨後渲染到頁面
+    3. 用 index 作為 key 可能會引發的問題
+      (1) 若對數據進行: 逆序添加，逆序刪除等於破壞順序操作，會產生沒有必要的真實DOM更新 ==> 介面效果問題，效率低
+      (2) 如果結構中還包含輸入類 DOM，會產生錯誤 DOM 更新 ==> 介面有問題
+    4. 開發中如何選擇 key ?
+      (1) 最好使用沒條數據的唯一標示作為 key
+      (2) 如果不存在對比數據的逆序添加，逆序刪除等破獲順序的操作，僅用於渲染列表于展示，使用 index 作為key 是沒有問題
+
+-->
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app"><h1>{{ message }}</h1><br>
+      <ul>
+        <!--array 陣列遍歷一次-->
+        <h2>人員訊息-陣列變歷</h2>
+        <button @click.once="addUser">新增人員</button>
+
+        <li v-for="(p,index) in persons" :key="index">
+          {{p.name}} - {{p.age}} - {{index}}
+        </li>
+      <hr>
+      <h2>虛擬 DOM 對比算法會造成 key 值對比造成錯誤的呈現</h2>
+      如果沒寫 key, Vue 會主動把 index 當成 key 來使用
+      </h2>
+      <h3>錯誤呈現 - key=index</h3>
+      <li v-for="(p,index) in persons" :key="index">
+        {{p.name}} - {{p.age}} - key-index: {{index}},id:{{p.id}}
+        <input type="text">
+      </li>
+      <hr>
+      <h3>錯誤呈現 - key=id(數據的唯一)</h3>
+      <li v-for="(p,index) in persons" :key="p.id">
+        {{p.name}} - {{p.age}} - key-index: {{index}}, id:{{p.id}}
+        <input type="text" >
+      </li>
+
+    </ul>
+
+
+    </div>
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: '列表渲染 List Rendering (Key)',
+            persons:[
+              {id:'001',name:'張三',age: 18},
+              {id:'002',name:'李四',age: 25},
+              {id:'003',name:'王五',age: 5}
+            ]
+          }
+        },
+        methods:{
+          addUser(){
+            const p = {id:'004', name:'隔壁老王', age: 50}
+            this.persons.unshift(p)
+            //JS 陣列操作基本語法
+            // unshift - 加在第一個
+            // push - 新增在最後
+            // shift - 移除第一個陣列值
+            // pop - 移除最後一個陣列值
+            // splice(索引位置, 數量) 可以移除指定位置、指定數量的陣列值
+            // reverse() 會反轉陣列的本身
+            // concat 是用於串接兩個陣列，串接的結果會透過回傳值取得，並不會套用至原有的陣列
+            // include 可以用來檢查陣列中是否包含特定值，結果會透過回傳的方式取得
+            // indexOf 則是回傳該值的索引位置
+            // join 陣列中的值轉變為字串，並且加入特定字元作為值相間的符號
+            
+          }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

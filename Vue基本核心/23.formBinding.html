@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表單數據收集 Form Input Bindings</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+
+  收集表单数据：
+  1. 若：<input type="text"/>，则v-model收集的是value值，用户输入的内容就是value值
+  2. 若：<input type="radio"/>，则v-model收集的是value值，且要给标签配置value属性
+  3. 若：<input type="checkbox"/>
+    * 没有配置value属性，那么收集的是checked属性（勾选 or 未勾选，是布尔值）
+    * 配置了value属性：
+      v-model的初始值是非数组，那么收集的就是checked（勾选 or 未勾选，是布尔值）
+      v-model的初始值是数组，那么收集的就是value组成的数组
+
+   v-model的三个修饰符：
+     lazy：失去焦点后再收集数据
+     number：输入字符串转为有效的数字
+     trim：输入首尾空格过滤
+-->
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app">
+      <h1>{{ message }}</h1><br>
+      <!--透過 prevent 修飾符，阻止 submit 事件後的刷新頁面-->
+        <form @submit.prevent="submit">
+          <!-- <form @submit="submit"> -->
+          <!-- 增加 label 是說明標題，還有一個 for 的屬性，可以增加表單元件可點擊範圍
+            把 for 屬性，與某表單屬性值 id 設成一樣讓其產生關聯。
+            簡單一點就是用 label 包起來也有一樣的效果。
+          <label for="account">帳號:</label>
+          <input type="text" id="account"> -->
+          <label>帳號: <input type="text" v-model.trim="userInfo.account"></label><br>
+          <label>密碼: <input type="password" v-model="userInfo.password"></label><br>
+          <label>年齡: <input type="number" v-model.number="userInfo.age"></label><br>
+          <label>
+            性別 :
+            男<input type="radio" name="sex" v-model="userInfo.sex" value="male">
+            女<input type="radio" name="sex" v-model="userInfo.sex" value="female">
+          </label><br>
+          <label>
+            愛好:
+            拍照<input type="checkbox" v-model="userInfo.hobby" value="takePic">
+            看書<input type="checkbox" v-model="userInfo.hobby" value="study">
+            上網<input type="checkbox" v-model="userInfo.hobby" value="online">
+          </label>
+          <br>
+          <label>
+          居住地
+          <select v-model="userInfo.city">
+            <option value="">請選擇你的居住地</option>
+            <option value="台北市">台北市</option>
+            <option value="新北市">新北市</option>
+            <option value="桃園市">桃園市</option>
+            <option value="台中市">台中市</option>
+            <option value="台南市">台南市</option>
+            <option value="高雄市">高雄市</option>
+          </select>
+        </label>
+          <br><br>
+          <label>
+            其他訊息:<br>
+            <!--失去焦點，資料才會將資料寫回 vm data-->
+            <textarea cols="50" rows="20" v-model.lazy="userInfo.otherMsg"></textarea>
+          </label>
+          <br><br>
+          <button>確認</button>
+        </form>
+    
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: '表單數據收集 Form Input Bindings',
+            userInfo:{
+            account:'',
+            password:'',
+            sex:'', //如果需要 default 值，直接給則會直接點選
+            hobby: [], //checkbox 的收集，必須使用陣列
+            city:'',
+            otherMsg:'',
+            age:''
+            }
+          }
+        },
+        methods:{
+          submit(){
+            alert(JSON.stringify(this.userInfo))
+          }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

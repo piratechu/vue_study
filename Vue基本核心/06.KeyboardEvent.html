@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+    Vue 常用的按鍵別名
+    1. enter 
+    2. delete - 刪除和退格鍵
+    3. esc 退出
+    4. space 空格
+    5. tab 換行
+    6. up / down / left / right
+
+    * Vue 未提供別名的按鍵，可以使用原始的key值去綁定，但注意要轉為kebab-case(短橫線命名)
+    * 系統修飾鍵(用法特殊)， ctrl , alt , shift, meta
+        (1) 配合 keyup 使用: 按下修飾鍵的同時，再按下其他鍵，隨後釋放其他鍵，事件才被觸發
+        (2) 配合 keydown 使用 : 正常觸發事件
+
+    也可以使用 keyCode 去指定具體的按鍵(不推薦)
+    * vue.config.keyCodes.自訂定義鍵名 = 鍵碼，可以去訂製按鍵別名
+
+    https://vuejs.org/guide/essentials/event-handling.html#key-modifiers
+-->
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app"><h1>{{ message }}</h1>
+    <input type="text" placeholder="按下Enter提示輸入" @keyup="showInfo">
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: '鍵盤事件'
+          }
+        },
+        methods:{
+            showInfo(e){
+                //列印 code name & keycode
+                console.log(e.key , e.keyCode)
+                console.log(e.target.value)
+            }
+        }
+      }).mount('#app')
+      console.log(createApp)
+    </script>    
+</body>
+</html>

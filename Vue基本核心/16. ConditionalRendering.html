@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+  條件渲染
+  1. v-if
+    寫法:
+      (1) v-if="表達式"
+      (2) v-else-if="表達式"
+      (3) v-else
+      適用於: 切換頻率低的場景
+      特點 : 不展示DOM元素，直接被移除
+      注意 : v-if可以和 v-else-if / v-else 一起使用，但不能被打斷
+  2. v-show
+    寫法: v-show="表達式"
+    適用於 : 切換平率高的場景
+    特點 : 不展示 DOM 元素未被移除，僅僅使用樣式隱藏掉
+
+  3. 備註 : 使用 v-if時，元素可能無法獲取到，而使用v-show 一定可以獲取到
+-->
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app">
+      <h1>{{ message }}</h1> <br><br>
+      <h2>目前呈現第 {{n}} 個 div</h2>
+      <button @click="clickShow">點我測試</button>
+      <!--用 v-show 作條件渲染，節點使用 sytle 隱藏，適合常變化 -->
+      <!-- <h2 v-show="true">{{ message1 }} </h2> -->
+      <!-- <h2 v-show="1 === 1">{{ message1 }} </h2> -->
+      <h2 v-show="n === 1">v-show {{ message2 }} </h2>
+      <h2 v-show="n === 2">v-show {{ message3 }} </h2>
+      <h2 v-show="n === 3">v-show {{ message4 }} </h2>
+      <!--用 v-if 作條件渲染，節點動態增添，適合不常變化 -->
+      <!-- <h2 v-if="false">{{ message1 }} </h2> -->
+      <!-- <h2 v-if="1 === 1">{{ message1 }} </h2> -->
+      <h2 v-if="n === 1">v-if {{ message2 }} </h2>
+      <h2 v-if="n === 2">v-if {{ message3 }} </h2>
+      <h2 v-if="n === 3">v-if {{ message4 }} </h2>
+      <!-- v-els-if / v-else 後的條件無效，此四個 div 必須合在一起為一組不能中斷 -->
+      <h2 v-if="n === 1">v-if {{ message2 }} </h2>
+      <h2 v-else-if="n === 2">v-else-if {{ message3 }} </h2>
+      <h2 v-else="n === 3">v-else {{ message4 }} </h2>
+      <!--多項目顯示，可以使用 template 標籤，只能用 v-if 配合使用-->
+      <!--差異在，template 渲染之後不會對 DOM 做 tag 增添，不影響節點或CSS呈現-->
+      <template v-if="n === 3">
+        <h2> template {{message2}} </h2>
+        <h2> template {{message3}} </h2>
+        <h2> template {{message4}} </h2>
+      </template>
+
+
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: '條件渲染 Conditional Rendering',
+            message1: '歡迎學習 Vue',
+            message2: 'AUO',
+            message3: 'CIM',
+            message4: 'Vue',
+            n:0
+          }
+        },
+        methods:{
+          clickShow(){
+            if(this.n >= 3)
+              this.n = 0
+            else
+              this.n++
+          }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

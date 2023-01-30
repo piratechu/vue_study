@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- include vue -->
+  <script src="./js/vue.global.js"></script>
+</head>
+<!--
+    v-for 指令
+      1. 用於展示列表數據
+      2. 語法: v-for-"(item,index) in xxxx" :key="yyy"
+      3. 可遍歷 : 數組(array)、對象(object)、字符串、指定次數
+-->
+
+<body>
+  <!-- 準備一個容器 -->
+  <div id="app">
+    <h1>{{ message }}</h1><br>
+    <button @click="updateOne">更新第一筆資料</button>
+    <ul>
+      <li v-for="(p,index) in persons" :key="index">
+        {{p.name}} - {{p.age}} - {{p.sex}}
+      </li>
+    </ul>
+  </div>
+  <script>
+    const { createApp } = Vue
+
+    createApp({
+      data() {
+        return {
+          message: 'Vue 監視數據變化的一個問題',
+          persons: [
+            { id: '001', name: '陳三梅', age: 18, sex: '男' },
+            { id: '002', name: '李小花', age: 25, sex: '女' },
+            { id: '003', name: '馬小梅', age: 5, sex: '女' },
+            { id: '004', name: '陳大壯', age: 42, sex: '男' }
+          ]
+        }
+      },
+      methods:{
+        updateOne(){
+          //this.persons[0].name = '王小明' // 可
+          //this.persons[0].age = 10 // 可
+          //this.persons[0].sex = '男' // 可
+          //以下更動不行(Vue2不行), Vue3 可以這樣做
+          this.persons[0] = {id:'0001', name:'王小明', age: 10, sex:'男'}
+
+          //正確替換方式,Vue2 需要這樣
+          //this.persons.splice(0,1,{id:'0001', name:'王小明', age: 10, sex:'男'})
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

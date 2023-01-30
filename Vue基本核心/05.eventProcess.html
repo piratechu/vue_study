@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+
+</head>
+<body>
+  <!-- 準備一個容器 -->
+  <div id="app">
+    <h1>{{ message }}</h1><br>
+    <button v-on:click="showInfo1">點我顯示訊息(v-on)</button><br>
+    <button @:click="showInfo2(66,$event)">點我顯示訊息(簡寫 @:click) & 傳入參數 </button><br>
+</div>
+<!--
+    1. v-on:xxx 或 @xxx 綁定事件，其中 xxx 是事件名
+    2. 事件回調需要配置在 methods對象中，最終會在 vm上
+    3. methods 中配置的函數，不要用箭頭函數，否則 this 就不是 vm了
+    4. methods 中配置的函數，都是被 vue所管理的函數，this的指向是 vm 或組件實例對象
+    5. @click="demo" 和 @click="demo($event)" 效果一致，但後者可以傳參數
+
+-->
+
+    <script>
+      const { createApp } = Vue
+      
+      //const vm = createApp({
+        createApp({          
+        data() {
+          return {
+            message: 'Vue 事件處理'
+          }
+        },
+        methods:{
+            //可以配置多個function
+            showInfo1(event){
+                //console.log(this) //此處的 this 是 Vue 實例 vm
+                //console.log(this === vm)
+                alert('彈出視窗 v-on 事件')
+            },
+            showInfo2(member,event){
+                //console.log(this) //此處的 this 是 Vue 實例 vm
+                //console.log(this === vm)
+                alert('彈出視窗 傳參數 : ' + member)
+            }
+
+        }
+      }).mount('#app')
+    </script>    
+
+</body>
+</html>

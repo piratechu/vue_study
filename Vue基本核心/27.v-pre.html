@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-html</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<!--
+  v-pre: 會讓指定元素被忽略，可以用在沒有使用 vue 語法的節點，加快編譯速度。
+-->
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app">
+      <h1>{{ message }}</h1>
+      <h1 v-pre>{{preTitle))</h1>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+      
+      createApp({
+        data() {
+          return {
+            message: 'v-pre',
+            preTitle: '我是 v-pre'
+
+          }
+        }
+      }).mount('#app')
+    </script>    
+</body>
+</html>

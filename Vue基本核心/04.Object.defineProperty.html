@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- include vue -->
+    <script src="./js/vue.global.js"></script>
+</head>
+<body>
+  <!-- 準備一個容器 -->
+    <div id="app"><h1>Object defineProperty Test</h1></div>
+
+    <script>
+        let number = 18
+        let person = {
+            name : 'google',
+            sex : 'man',
+        }
+
+        Object.defineProperty(person,'age',{
+            //value: 30,
+            //enumerable: true, //控制屬性是否可以被枚舉(遍歷)，默認 false
+            //writable: true, // 控制屬性是否可以被修改，默認 false
+            //configurable: true // 控制屬性是否可以被刪除，默認 false
+
+            //當有人讀取 person的 age 屬性時，get函數(getter)就會被調用，且返回值就是age的值
+            get:function(){
+                console.log('someone get value!!')
+                return number
+            },
+            set(value){
+                console.log('someone set value!!')
+                number = value
+            }
+        })
+
+        console.log(Object.keys(person))
+        console.log(person)
+    </script>    
+</body>
+</html> 
+<!--
+    數據代理 : 通過一個對象隊另外一個對象中的屬性的操作(讀/寫)
+
+    let obj = {x:100}
+    let obj2 = {y:200}
+
+    Object.defineProperty(obj2,'x',{
+        get(){
+            return obj.x
+        },
+        set(value){
+            obj.x = value
+        }
+    })
+
+    vue 中的數據代理，通過 VM 對象來代理 data對象中的數據(讀/寫)
+    基本原理
+        通過 object.defineProperty() 把 data 對象中所有的屬性添加到 vm 上。
+        為每一個添加到 vm上的屬性，都指定一個 getter / setter，
+        在 getter / setter 內部操作(讀寫) data 中對應的屬性。
+
+-->
