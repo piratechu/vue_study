@@ -428,3 +428,8 @@ https://ithelp.ithome.com.tw/m/articles/10274013
 -   動畫名稱有變動
 -   keyCodes 移除
 -   v-on:native 移除
+
+## 功能使用
+
+當使用 props 傳遞 image 路徑時， components 使用方式要使用 require 的方式，不然會破圖。
+e.g <img :src="require(`@/assets/${imgUrl}`)"/>
