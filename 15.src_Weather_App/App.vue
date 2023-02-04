@@ -92,6 +92,7 @@ export default {
         function fetchWeather() {
             //fetch weather from web api
             //set weather and change {{ parameter}}
+
             console.log("fetchWeather");
         }
         function dateBuilder() {
