@@ -432,4 +432,8 @@ https://ithelp.ithome.com.tw/m/articles/10274013
 ## 功能使用
 
 當使用 props 傳遞 image 路徑時， components 使用方式要使用 require 的方式，不然會破圖。
-e.g <img :src="require(`@/assets/${imgUrl}`)"/>
+e.g
+
+```js
+<img :src="require(`@/assets/${imgUrl}`)"/>
+```
