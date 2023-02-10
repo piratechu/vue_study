@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- include vue -->
+        <script src="./js/vue.global.js"></script>
+    </head>
+    <style>
+        .content-table {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            min-width: 400px;
+            border-radius: 5px 5px 0 0;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        .content-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+        .content-table th,
+        .content-table td {
+            padding: 12px 15px;
+        }
+        .content-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        .content-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        .content-table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+        .content-table tbody tr.active-row {
+            font-weight: bold;
+            color: #009879;
+        }
+    </style>
+
+    <body>
+        <div id="app">
+            <h1>{{msg}}</h1>
+            <table class="content-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>統計年份</th>
+                        <th>地區</th>
+                        <th>母親年齡</th>
+                        <th>寶寶性別</th>
+                        <th>出生數量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(birth,index) in birthComputed" :key="index">
+                        <td>{{index+1}}</td>
+                        <td>{{birth.statistic_yyy}}</td>
+                        <td>{{birth.site_id}}</td>
+                        <td>{{birth.mother_age}}</td>
+                        <td>{{birth.birth_sex}}</td>
+                        <td>{{birth.birth_count}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script>
+            const { createApp, ref, computed } = Vue;
+
+            const app = createApp({
+                setup() {
+                    let birthAgeCnt = ref([]);
+                    const msg = "按年齡區分出生人數";
+                    fetch("./js/birth.json")
+                        .then((res) => res.json())
+                        .then(
+                            (data) => {
+                                birthAgeCnt.value = data;
+                            },
+                            (error) => {
+                                console.log("Error Loading Json file!", error);
+                            }
+                        );
+                    const birthComputed = computed(() => {
+                        const arr = birthAgeCnt.value;
+                        arr.sort((p1, p2) => {
+                            return p2.birth_count - p1.birth_count;
+                        });
+                        return arr;
+                    });
+                    return { msg, birthAgeCnt, birthComputed };
+                },
+            });
+            app.mount("#app");
+        </script>
+    </body>
+</html>
