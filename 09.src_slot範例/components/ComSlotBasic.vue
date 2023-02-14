@@ -1,11 +1,9 @@
 <template>
-    <el-card class="box-card">
-        <template #header>
-            <div class="card-header">
-                <span>{{ title }}</span>
-                <el-button class="button" text>Operation button</el-button>
-            </div>
-        </template>
+    <div class="card">
+        <div class="card-header">
+            <span>{{ title }}</span>
+            <button class="button" text>Operation button</button>
+        </div>
         <!--利用巢狀迴圈抓取相關的類別資料-->
         <div v-for="o in goodsData" :key="o" class="text item">
             <div v-if="o.name === category">
@@ -16,7 +14,7 @@
                 <slot>沒有定義名稱，就會在這裡直接使用這個插槽</slot>
             </div>
         </div>
-    </el-card>
+    </div>
 </template>
 
 <script>
@@ -26,10 +24,22 @@ export default {
     setup() {
         return {};
     },
+    mounted() {
+        console.log(this.goodsData[0]);
+    },
 };
 </script>
 
 <style scoped>
+.card {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid grey;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    border-radius: 6px;
+}
 .card-header {
     display: flex;
     justify-content: space-between;

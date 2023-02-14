@@ -1,9 +1,9 @@
 <template>
-    <button @click="getAxiosData">透過 aiox 抓取資料</button><br />
     <!--如果元件的中間傳入東西，元件會不知道要做甚麼，所以可以透過 slot 保留一個坑給外部使用-->
     <!--目前用途屬於默認插槽-->
     <ComSlotBasic title="美食" category="foods" :goodsData="goods">
-        <img src="../assets/bbq.jpg"
+        <h1>熱銷產品</h1>
+        <img src="./assets/bbq.jpg" style="width: 10%"
     /></ComSlotBasic>
     <ComSlotBasic
         title="遊戲"
@@ -18,42 +18,18 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref } from "vue";
+import userData from "./assets/goods.json";
 import ComSlotBasic from "@/components/ComSlotBasic.vue";
 
 export default {
     name: "HomeView",
     components: { ComSlotBasic },
     setup() {
-        const goods = ref([]);
-        onMounted(() => {
-            axios
-                .get("/api/goods")
-                .then((response) => {
-                    goods.value = response.data;
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    console.log("axios error:", error);
-                });
-        });
+        const goods = ref([...userData]); //將 JSON 解構
         return {
             goods,
         };
-    },
-    methods: {
-        getAxiosData() {
-            axios
-                .get("/api/goods")
-                .then((response) => {
-                    this.goods = response.data;
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    console.log("axios error:", error.data);
-                });
-        },
     },
 };
 </script>
