@@ -22,6 +22,7 @@ export default {
     border-radius: 6px;
     padding: 20px;
     display: flex;
+    position: relative;
     align-items: center;
 }
 .btn-clear {
@@ -30,8 +31,9 @@ export default {
     background-color: #f44336;
     color: white;
     padding: 10px;
+    position: absolute;
     border-radius: 6px;
-    margin-left: 10px;
+    right: 10px;
     cursor: pointer;
 }
 
