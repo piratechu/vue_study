@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <style>
+        .body {
+            margin: 0px;
+        }
+        .todo-container {
+            width: 100%;
+            position: relative;
+        }
+        .todo-wrap {
+            width: 600px;
+            margin: 0 auto;
+        }
+        /* header */
+        .todo-header {
+            background-color: #eee;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+        }
+        .input {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 90%;
+            height: 52px;
+            padding: 0 25px;
+            flex: 1;
+            font-size: 18px;
+            outline: none;
+        }
+        .input:focus,
+        .add:focus {
+            outline: none;
+            border-color: #719ece;
+            box-shadow: 0 0 10px #719ece;
+        }
+        /* footer */
+
+        .delete-all {
+            background-color: #eee;
+            border-radius: 6px;
+            padding: 20px;
+            display: flex;
+            position: relative;
+            align-items: center;
+        }
+        .btn-clear {
+            margin-top: 3px;
+            border: none;
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            position: absolute;
+            border-radius: 6px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .span-font {
+            font-size: 18px;
+        }
+        .input_checkbox {
+            width: 25px;
+            height: 25px;
+        }
+        /* item */
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-left: -30px;
+        }
+        li button {
+            float: right;
+            display: none;
+            margin-top: 3px;
+            border: none;
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        li:hover button {
+            display: block;
+        }
+        .span-font {
+            font-size: 22px;
+            height: 50px;
+            padding: 0 20px;
+        }
+        label {
+            padding: 0;
+            margin-right: 3px;
+            cursor: pointer;
+        }
+        .input_checkbox {
+            width: 25px;
+            height: 25px;
+        }
+    </style>
+    <body>
+        <div class="todo-container">
+            <div class="todo-wrap">
+                <div class="todo-header">
+                    <input
+                        class="input"
+                        type="text"
+                        placeholder="請輸入任務名稱"
+                    />
+                </div>
+                <ul class="todo-main">
+                    <li>
+                        <label>
+                            <input class="input_checkbox" type="checkbox" />
+                            <span class="span-font">XXXXXXXXX</span>
+                        </label>
+                        <button>删除</button>
+                    </li>
+                    <li>
+                        <label>
+                            <input class="input_checkbox" type="checkbox" />
+                            <span class="span-font">XXXXXXXXX</span>
+                        </label>
+                        <button>删除</button>
+                    </li>
+                    <li>
+                        <label>
+                            <input class="input_checkbox" type="checkbox" />
+                            <span class="span-font">XXXXXXXXX</span>
+                        </label>
+                        <button>删除</button>
+                    </li>
+                </ul>
+                <div class="delete-all">
+                    <label>
+                        <input class="input_checkbox" type="checkbox" />
+                    </label>
+                    <span>
+                        <span calss="span-font">已完成 ?? </span> / 全部 ??
+                    </span>
+                    <button class="btn-clear">清除已完成任务</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
